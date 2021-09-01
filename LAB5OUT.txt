@@ -1,0 +1,262 @@
+1                   J E S 2  J O B  L O G  --  S Y S T E M  2 9 6 4  --  N O D E  S V S C J E S 2        
+0 
+ 01.55.18 JOB03440 ---- FRIDAY,    19 MAR 2021 ----
+ 01.55.18 JOB03440  IRR010I  USERID KC03D2B  IS ASSIGNED TO THIS JOB.
+ 01.55.18 JOB03440  ICH70001I KC03D2B  LAST ACCESS AT 01:38:39 ON FRIDAY, MARCH 19, 2021
+ 01.55.18 JOB03440  $HASP373 KC03D2BA STARTED - INIT 2    - CLASS A        - SYS 2964
+ 01.55.18 JOB03440  $HASP395 KC03D2BA ENDED - RC=0000
+0------ JES2 JOB STATISTICS ------
+-  19 MAR 2021 JOB EXECUTION DATE
+-          194 CARDS READ
+-          266 SYSOUT PRINT RECORDS
+-            0 SYSOUT PUNCH RECORDS
+-           23 SYSOUT SPOOL KBYTES
+-         0.00 MINUTES EXECUTION TIME
+         1 //KC03D2BA JOB ,'Milena Zlaticanin' ,MSGCLASS=H                         JOB03440
+         2 //JSTEP01  EXEC PGM=ASSIST                                                      
+         3 //STEPLIB  DD DSN=KC00NIU.ASSIST.LOADLIB,DISP=SHR                               
+         4 //SYSPRINT DD SYSOUT=*                                                          
+         5 //SYSIN    DD *                                                                 
+           //*                                                                             
+         6 //FT05F001 DD DSN=KC02038.CSCI360.DATAFA20(LABEX4DA),DISP=SHR                   
+           //*                                                                             
+         7 //FT06F001 DD SYSOUT=*                                                          
+           //*                                                                             
+         8 //SYSPRINT DD SYSOUT=*                                                          
+         9 //                                                                              
+ ICH70001I KC03D2B  LAST ACCESS AT 01:38:39 ON FRIDAY, MARCH 19, 2021
+ IEFA111I KC03D2BA IS USING THE FOLLOWING JOB RELATED SETTINGS:
+          SWA=ABOVE,TIOT SIZE=32K,DSENQSHR=DISALLOW,GDGBIAS=JOB
+ IEF236I ALLOC. FOR KC03D2BA JSTEP01
+ IGD103I SMS ALLOCATED TO DDNAME STEPLIB
+ IEF237I JES2 ALLOCATED TO SYSPRINT
+ IEF237I JES2 ALLOCATED TO SYSIN
+ IGD103I SMS ALLOCATED TO DDNAME FT05F001
+ IEF237I JES2 ALLOCATED TO FT06F001
+ IEF237I JES2 ALLOCATED TO SYSPRINT
+ IEF142I KC03D2BA JSTEP01 - STEP WAS EXECUTED - COND CODE 0000
+ IGD104I KC00NIU.ASSIST.LOADLIB                       RETAINED,  DDNAME=STEPLIB 
+ IEF285I   KC03D2B.KC03D2BA.JOB03440.D0000102.?         SYSOUT        
+ IEF285I   KC03D2B.KC03D2BA.JOB03440.D0000101.?         SYSIN         
+ IGD104I KC02038.CSCI360.DATAFA20                     RETAINED,  DDNAME=FT05F001
+ IEF285I   KC03D2B.KC03D2BA.JOB03440.D0000103.?         SYSOUT        
+ IEF285I   KC03D2B.KC03D2BA.JOB03440.D0000104.?         SYSOUT        
+ IEF373I STEP/JSTEP01 /START 2021078.0155
+ IEF032I STEP/JSTEP01 /STOP  2021078.0155 
+         CPU:     0 HR  00 MIN  00.00 SEC    SRB:     0 HR  00 MIN  00.00 SEC    
+         VIRT:   584K  SYS:   248K  EXT:        0K  SYS:    12648K
+         ATB- REAL:                  3364K  SLOTS:                     0K
+              VIRT- ALLOC:      13M SHRD:       0M
+ IEF375I  JOB/KC03D2BA/START 2021078.0155
+ IEF033I  JOB/KC03D2BA/STOP  2021078.0155 
+         CPU:     0 HR  00 MIN  00.00 SEC    SRB:     0 HR  00 MIN  00.00 SEC    
+1*** ASSIST 4.0/A2-05/15/82  470/V7A/0:OS/VS2  INS=SDFP7/X=BGHO, CHECK/TRC/=1180, OPTS=CDKMPR FROM PENN ST*NIU COMPSCI*LT         
+0                                                                                                                                 
+0                                                                                                               PAGE    1         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+                                       1 ******************************************************************                       
+                                       2 *                                                                *                       
+                                       3 *  CSCI 360             LAB EXERCISE 5              SPRING 2021  *                       
+                                       4 *                                                                *                       
+                                       5 *  DATE DUE:  03/19/21                                           *                       
+                                       6 *  TIME DUE:  11:59 PM                                           *                       
+                                       7 *                                                                *                       
+                                       8 *  AUTHOR: Milena Zlaticanin                                     *                       
+                                       9 *                                                                *                       
+                                      10 *  DESCRIPTION:                                                  *                       
+                                      11 *   Lab 5 - Internal and External Subroutines                    *                       
+                                      12 *                                                                *                       
+                                      13 ******************************************************************                       
+ 000000                               14 MAIN     CSECT                                                                           
+                                      15 * Standard entry linkage                                                                 
+ 000000                               16          USING MAIN,12              ESTABLISH ADDRESSABILITY ON REG 12                   
+ 000000 90EC D00C            0000C    17          STM   14,12,12(13)         SAVE REGS IN CALLER'S SAVE AREA                      
+ 000004 18CF                          18          LR    12,15                COPY CSECT ADDRESS INTO REG 12                       
+ 000006 41E0 C064            00064    19          LA    14,MAINSAVE          POINT R14 AT THIS CSECT'S SAVE AREA                  
+ 00000A 50E0 D008            00008    20          ST    14,8(,13)            STORE ADDRESS OF CSECT'S SAVE AREA                   
+ 00000E 50D0 E004            00004    21          ST    13,4(,14)            STORE ADDRESS OF CALLER'S SAVE AREA                  
+ 000012 18DE                          22          LR    13,14                POINT R13 AT CALLER'S SAVE AREA                      
+                                      23 *                                                                                        
+                                      24 * ================================================================                       
+                                      25 *                                                                                        
+ 000014 E000 C0AC 0050 000AC          26          XREAD BUFFER,80            READ 80 BYTES FROM INPUT FILE                        
+                                      27 *                                                                                        
+ 00001A 4770 C04C            0004C    28 PROCLOOP BNZ   PROCDONE             BRANCH TO PROCDONE IF EOF                            
+                                      29 *                                                                                        
+                                      30 * Read in x, y                                                                           
+ 00001E F223 C0FC C0AC 000FC 000AC    31          PACK  PX1(3),BUFFER(4)     PACK PX1                                             
+ 000024 F223 C0FF C0B1 000FF 000B1    32          PACK  PX2(3),BUFFER+5(4)   PACK PX2                                             
+ 00002A F223 C102 C0B6 00102 000B6    33          PACK  PX3(3),BUFFER+10(4)  PACK PX3                                             
+                                      34 *                                                                                        
+ 000030 4110 C10C            0010C    35          LA    1,PARMS1                                                                  
+ 000034 45B0 C12C            0012C    36          BAL   11,CALCY                                                                  
+                                      37 *                                                                                        
+ 000038 4110 C11C            0011C    38          LA    1,PARMS2                                                                  
+ 00003C 58F0 C060            00060    39          L     15,=V(FRMTPRLN)                                                           
+ 000040 05EF                          40          BALR  14,15                                                                     
+                                      41 *                                                                                        
+ 000042 E000 C0AC 0050 000AC          42          XREAD BUFFER,80            READ NEXT RECORD                                     
+ 000048 47F0 C01A            0001A    43          B     PROCLOOP                                                                  
+                                      44 * ==================================================================                     
+                                      45 * Standard exit linkage                                                                  
+                                      46 *                                                                                        
+ 00004C 1BFF                          47 PROCDONE SR    15,15                SET RETURN CODE TO 0                                 
+ 00004E 58D0 D004            00004    48          L     13,4(,13)            POINT R13 TO CALLER'S SAVE AREA                      
+ 000052 58E0 D00C            0000C    49          L     14,12(,13)           RESTORE R14                                          
+ 000056 980C D014            00014    50          LM    0,12,20(13)          RESTORE R0 THRU R12                                  
+ 00005A 07FE                          51          BR    14                   RETURN TO CALLER                                     
+                                      52 *                                                                                        
+1                                                                                                               PAGE    2         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+                                      53 * ====== Program storage ===========================================                     
+                                      54 *                                                                                        
+ 00005C 07FE                          55          BCR   B'1111',14           BRANCH                                               
+                                      56          LTORG                                                                           
+ 000060 000001C0                      57                =V(FRMTPRLN)                                                              
+                                      58 *                                                                                        
+ 000064 FFFFFFFFFFFFFFFF              59 MAINSAVE DC    18F'-1'              CURRENT REGISTER SAVE AREA                           
+                                      60 *                                                                                        
+                                      61 * Read buffer                                                                            
+ 0000AC                               62 BUFFER   DS    CL80                                                                      
+                                      63 *                                                                                        
+                                      64 * Packed decimal variables                                                               
+ 0000FC 00000C                        65 PX1      DC    PL3'0'               PACKED X1                                            
+ 0000FF 00000C                        66 PX2      DC    PL3'0'               PACKED X2                                            
+ 000102 00000C                        67 PX3      DC    PL3'0'               PACKED X3                                            
+ 000105 0000000C                      68 PY       DC    PL4'0'                                                                    
+                                      69 *                                                                                        
+ 00010C 000000FC                      70 PARMS1   DC    A(PX1)                                                                    
+ 000110 000000FF                      71          DC    A(PX2)                                                                    
+ 000114 00000102                      72          DC    A(PX3)                                                                    
+ 000118 00000105                      73          DC    A(PY)                                                                     
+ 00011C 000000FC                      74 PARMS2   DC    A(PX1)                                                                    
+ 000120 000000FF                      75          DC    A(PX2)                                                                    
+ 000124 00000102                      76          DC    A(PX3)                                                                    
+ 000128 00000105                      77          DC    A(PY)                                                                     
+                                      78 *                                                                                        
+                                      79 *****************************************************************                        
+                                      80 * INTERNAL SUBROUTINE                                                                    
+                                      81 *****************************************************************                        
+ 00012C                               82 CALCY    DS    0H                                                                        
+                                      83 * Save caller's registers                                                                
+ 00012C 9025 C190            00190    84          STM   2,5,CALCSAVE                                                              
+                                      85 * Dereference the parameter list                                                         
+ 000130 9825 1000            00000    86          LM    2,5,0(1)             R2 -> X1(3)                                          
+                                      87 *                                   R3 -> X2(3)                                          
+                                      88 *                                   R4 -> X3(3)                                          
+                                      89 * Calculate 2.50x1^2 and accumulate                                                      
+ 000134 F862 C1AB 2000 001AB 00000    90          ZAP   ACCUM(7),0(3,2)      CLEAR & PUT XP1 IN ACCUMULATOR                       
+ 00013A FC62 C1AB 2000 001AB 00000    91          MP    ACCUM(7),0(3,2)      SQUARE IT                                            
+ 000140 F065 C1AB 003E 001AB 0003E    92          SRP   ACCUM(7),64-2,5      RIGHT SHIFT AND ROUND TO 2 DEC PL                    
+ 000146 FC61 C1AB C1B2 001AB 001B2    93          MP    ACCUM(7),PC1(2)      MULTIPLY BY 2.50                                     
+                                      94 * Calculate 5.25x2 and accumulate                                                        
+ 00014C F065 C1AB 003E 001AB 0003E    95          SRP   ACCUM(7),64-2,5      RIGHT SHIFT AND ROUND TO 2 DEC PL                    
+ 000152 F872 C19C 3000 0019C 00000    96          ZAP   PTEMP(8),0(3,3)      CLEAR & PUT PX2 IN PTEMP                             
+ 000158 FC71 C19C C1B4 0019C 001B4    97          MP    PTEMP(8),PC2(2)      MULITPLY BY 5.25                                     
+ 00015E F075 C19C 003E 0019C 0003E    98          SRP   PTEMP(8),64-2,5      RIGHT SHIFT AND ROUND TO 2 DEC PL                    
+                                      99 * Calculate 100.75/x3 and accumulate                                                     
+ 000164 FA67 C1AB C19C 001AB 0019C   100          AP    ACCUM(7),PTEMP(8)    ACCUMULATE INTO RESULT                               
+ 00016A F862 C1A4 C1B6 001A4 001B6   101          ZAP   PTEMP1(7),PC3        CLEAR & PUT PC3 IN PTEMP                             
+ 000170 F060 C1A4 0002 001A4 00002   102          SRP   PTEMP1(7),2,0        LEFT SHIFT                                           
+ 000176 FD62 C1A4 4000 001A4 00000   103          DP    PTEMP1(7),0(3,4)     DIVIDE 100.75 BY PX3                                 
+                                     104 * Add PX1+PX2+PX3                                                                        
+ 00017C FA63 C1AB C1A4 001AB 001A4   105          AP    ACCUM(7),PTEMP1(4)   ACCUMULATE INTO FINAL RESULT                         
+ 000182 F866 5000 C1AB 00000 001AB   106          ZAP   0(7,5),ACCUM(7)                                                           
+                                     107 *                                                                                        
+                                     108 * Restore caller's registers and return                                                  
+ 000188 9825 C190            00190   109          LM    2,5,CALCSAVE                                                              
+1                                                                                                               PAGE    3         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+ 00018C 07FB                         110          BR    11                                                                        
+                                     111 *                                                                                        
+                                     112 * === Subroutine storage ========================================                        
+ 000190                              113 CALCSAVE DS    3F                                                                        
+ 00019C 000000000000000C             114 PTEMP    DC    PL8'0'               INTERMEDIATE RESULT FIELD                            
+ 0001A4 0000000000000C               115 PTEMP1   DC    PL7'0'                                                                    
+ 0001AB 0000000000000C               116 ACCUM    DC    PL7'0'               TERM ACCUMULATION FIELD                              
+ 0001B2 250C                         117 PC1      DC    PL2'250'             CONST FOR X1                                         
+ 0001B4 525C                         118 PC2      DC    PL2'525'             CONST FOR X2                                         
+ 0001B6 10075C                       119 PC3      DC    PL3'10075'           CONST FOR X3                                         
+                                     120 *                                                                                        
+                                     121 *****************************************************************                        
+                                     122 * EXTERNAL SUBROUTINE                                                                    
+                                     123 *****************************************************************                        
+ 0001C0                              124 FRMTPRLN CSECT                                                                           
+                                     125 * Standard entry linkage                                                                 
+ 0001C0 90EC D00C            0000C   126          STM   14,12,12(13)         SAVE REGS IN CALLER'S SAVE AREA                      
+ 0001C4 18CF                         127          LR    12,15                COPY CSECT ADDRESS INTO REG 12                       
+ 0001C0                              128          USING FRMTPRLN,12          ESTABLISH ADDRESSABILITY ON REG 12                   
+ 0001C6 41E0 C094            00254   129          LA    14,FRMTSAVE          POINT R14 AT THIS CSECT'S SAVE AREA                  
+ 0001CA 50E0 D008            00008   130          ST    14,8(,13)            STORE ADDRESS OF CSECT'S SAVE AREA                   
+ 0001CE 50D0 E004            00004   131          ST    13,4(,14)            STORE ADDRESS OF CALLER'S SAVE AREA                  
+ 0001D2 18DE                         132          LR    13,14                POINT R13 AT CALLER'S SAVE AREA                      
+                                     133 * ================================================================                       
+ 0001D4 9825 1000            00000   134          LM    2,5,0(1)                                                                  
+ 0001D8 F832 C0DC 2000 0029C 00000   135          ZAP   PPX1(4),0(3,2)                                                            
+ 0001DE F832 C0E0 3000 002A0 00000   136          ZAP   PPX2(4),0(3,3)                                                            
+ 0001E4 F832 C0E4 4000 002A4 00000   137          ZAP   PPX3(4),0(3,4)                                                            
+ 0001EA F866 C0E8 5000 002A8 00000   138          ZAP   PPY(7),0(7,5)                                                             
+ 0001F0 F030 C0DC 0003 0029C 00003   139          SRP   PPX1(4),3,0                                                               
+ 0001F6 F030 C0E0 0003 002A0 00003   140          SRP   PPX2(4),3,0                                                               
+ 0001FC F030 C0E4 0003 002A4 00003   141          SRP   PPX3(4),3,0                                                               
+ 000202 F060 C0E8 0006 002A8 00006   142          SRP   PPY(7),6,0                                                                
+                                     143 *                                                                                        
+                                     144 *Printing                                                                                
+ 000208 D205 C0F5 C178 002B5 00338   145          MVC   OUTX1(6),=X'4021204B2020'                                                 
+ 00020E DE05 C0F5 C0DC 002B5 0029C   146          ED    OUTX1(6),PPX1                                                             
+ 000214 D205 C102 C178 002C2 00338   147          MVC   OUTX2(6),=X'4021204B2020'                                                 
+ 00021A DE05 C102 C0E0 002C2 002A0   148          ED    OUTX2(6),PPX2                                                             
+ 000220 D205 C10F C178 002CF 00338   149          MVC   OUTX3(6),=X'4021204B2020'                                                 
+ 000226 DE05 C10F C0E4 002CF 002A4   150          ED    OUTX3(6),PPX3                                                             
+ 00022C D209 C11B C17E 002DB 0033E   151          MVC   OUTY(10),=X'4020206B2021204B2020'                                         
+ 000232 DF09 C11B C0E8 002DB 002A8   152          EDMK  OUTY(10),PPY                                                              
+ 000238 0610                         153          BCTR  1,0                                                                       
+ 00023A 925B 1000      00000         154          MVI   0(1),C'$'                                                                 
+ 00023E E020 C0EF 0085 002AF         155          XPRNT PRINTLN,133                                                               
+                                     156 *                                                                                        
+                                     157 * Restore caller's registers and return                                                  
+ 000244 58D0 D004            00004   158          L     13,4(,13)                                                                 
+ 000248 98EC D00C            0000C   159          LM    14,12,12(13)                                                              
+ 00024C 41F0 0000            00000   160          LA    15,0                                                                      
+ 000250 07FE                         161          BR    14                                                                        
+                                     162 *                                                                                        
+                                     163 * === Subroutine storage ================                                                
+ 000254                              164 FRMTSAVE DS    18F'-1'                                                                   
+ 00029C 0000000C                     165 PPX1     DC    PL4'0'                                                                    
+ 0002A0 0000000C                     166 PPX2     DC    PL4'0'                                                                    
+1                                                                                                               PAGE    4         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+ 0002A4 0000000C                     167 PPX3     DC    PL4'0'                                                                    
+ 0002A8 0000000000000C               168 PPY      DC    PL7'0'                                                                    
+                                     169 *                                                                                        
+                                     170 * Printing the lines                                                                     
+ 0002AF F0                           171 PRINTLN  DC    C'0'                CNTRL CHAR - SINGLE SPACE                             
+ 0002B0 40A7F1407E                   172          DC    C' x1 ='                                                                  
+ 0002B5                              173 OUTX1    DS    CL6                                                                       
+ 0002BB 404F40A7F2407E               174          DC    C' | x2 ='                                                                
+ 0002C2                              175 OUTX2    DS    CL6                                                                       
+ 0002C8 404F40A7F3407E               176          DC    C' | x3 ='                                                                
+ 0002CF                              177 OUTX3    DS    CL6                                                                       
+ 0002D5 404F40A8407E                 178          DC    C' | y ='                                                                 
+ 0002DB                              179 OUTY     DS    CL10                                                                      
+ 0002E5 4040404040404040             180          DC    79C' '                                                                    
+                                     181 *                                                                                        
+                                     182          END   MAIN                                                                      
+ 000338 4021204B2020                 183                =X'4021204B2020'                                                          
+ 00033E 4020206B2021204B             184                =X'4020206B2021204B2020'                                                  
+0***  NO   STATEMENTS FLAGGED -  NO   WARNINGS,  NO   ERRORS                                                                      
+0*** DYNAMIC CORE AREA USED:  LOW:    8368 HIGH:     976 LEAVING:  484224 FREE BYTES. AVERAGE:       50 BYTES/STMT ***            
+0*** ASSEMBLY TIME =    0.000 SECS,   185000 STATEMENTS/SEC ***                                                                   
+0*** PROGRAM EXECUTION BEGINNING - ANY OUTPUT BEFORE EXECUTION TIME MESSAGE IS PRODUCED BY USER PROGRAM ***                       
+0 x1 =  2.05 | x2 = 30.10 | x3 = 17.00 | y =   $174.45                                                                            
+0 x1 =  1.20 | x2 = 70.00 | x3 =  5.20 | y =   $390.47                                                                            
+0 x1 =  0.00 | x2 = 20.00 | x3 = 22.05 | y =   $109.56                                                                            
+0 x1 =  1.40 | x2 = 10.11 | x3 =  2.25 | y =   $102.75                                                                            
+0 x1 = 90.00 | x2 =  0.00 | x3 =  4.00 | y =$20,275.18                                                                            
+0 x1 = 10.25 | x2 = 20.90 | x3 = 10.11 | y =   $382.34                                                                            
+0 x1 = 30.25 | x2 =  0.00 | x3 =  3.55 | y = $2,316.03                                                                            
+0 x1 =  1.00 | x2 = 10.44 | x3 =  5.15 | y =    $76.87                                                                            
+0 x1 = 60.75 | x2 = 20.90 | x3 = 42.05 | y = $9,338.52                                                                            
+0 x1 =  1.50 | x2 =  0.00 | x3 =  1.00 | y =   $106.38                                                                            
+0*** EXECUTION TIME =    0.000 SECS.       603 INSTRUCTIONS EXECUTED -   603000 INSTRUCTIONS/SEC ***                              
+0*** AM004 - NORMAL USER TERMINATION BY RETURN ***                                                                                

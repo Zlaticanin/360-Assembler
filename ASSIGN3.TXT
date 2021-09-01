@@ -1,0 +1,681 @@
+1                   J E S 2  J O B  L O G  --  S Y S T E M  2 9 6 4  --  N O D E  S V S C J E S 2        
+0 
+ 21.42.34 JOB03555 ---- FRIDAY,    23 APR 2021 ----
+ 21.42.34 JOB03555  IRR010I  USERID KC03D2B  IS ASSIGNED TO THIS JOB.
+ 21.42.34 JOB03555  ICH70001I KC03D2B  LAST ACCESS AT 21:42:16 ON FRIDAY, APRIL 23, 2021
+ 21.42.34 JOB03555  $HASP373 KC03D2BA STARTED - INIT 2    - CLASS A        - SYS 2964
+ 21.42.34 JOB03555  $HASP395 KC03D2BA ENDED - RC=0000
+0------ JES2 JOB STATISTICS ------
+-  23 APR 2021 JOB EXECUTION DATE
+-          586 CARDS READ
+-          685 SYSOUT PRINT RECORDS
+-            0 SYSOUT PUNCH RECORDS
+-           58 SYSOUT SPOOL KBYTES
+-         0.00 MINUTES EXECUTION TIME
+         1 //KC03D2BA JOB ,'Milena Zlaticanin' ,MSGCLASS=H                         JOB03555
+         2 //JSTEP01  EXEC PGM=ASSIST                                                      
+         3 //STEPLIB  DD DSN=KC00NIU.ASSIST.LOADLIB,DISP=SHR                               
+         4 //SYSPRINT DD SYSOUT=*                                                          
+         5 //SYSIN    DD *                                                                 
+           //*                                                                             
+         6 //FT05F001 DD DSN=KC02038.CSCI360.DATAFA20(BSTNDATA),DISP=SHR                   
+           //*                                                                             
+         7 //FT06F001 DD SYSOUT=*                                                          
+           //*                                                                             
+         8 //SYSPRINT DD SYSOUT=*                                                          
+         9 //                                                                              
+ ICH70001I KC03D2B  LAST ACCESS AT 21:42:16 ON FRIDAY, APRIL 23, 2021
+ IEFA111I KC03D2BA IS USING THE FOLLOWING JOB RELATED SETTINGS:
+          SWA=ABOVE,TIOT SIZE=32K,DSENQSHR=DISALLOW,GDGBIAS=JOB
+ IEF236I ALLOC. FOR KC03D2BA JSTEP01
+ IGD103I SMS ALLOCATED TO DDNAME STEPLIB
+ IEF237I JES2 ALLOCATED TO SYSPRINT
+ IEF237I JES2 ALLOCATED TO SYSIN
+ IGD103I SMS ALLOCATED TO DDNAME FT05F001
+ IEF237I JES2 ALLOCATED TO FT06F001
+ IEF237I JES2 ALLOCATED TO SYSPRINT
+ IEF142I KC03D2BA JSTEP01 - STEP WAS EXECUTED - COND CODE 0000
+ IGD104I KC00NIU.ASSIST.LOADLIB                       RETAINED,  DDNAME=STEPLIB 
+ IEF285I   KC03D2B.KC03D2BA.JOB03555.D0000102.?         SYSOUT        
+ IEF285I   KC03D2B.KC03D2BA.JOB03555.D0000101.?         SYSIN         
+ IGD104I KC02038.CSCI360.DATAFA20                     RETAINED,  DDNAME=FT05F001
+ IEF285I   KC03D2B.KC03D2BA.JOB03555.D0000103.?         SYSOUT        
+ IEF285I   KC03D2B.KC03D2BA.JOB03555.D0000104.?         SYSOUT        
+ IEF373I STEP/JSTEP01 /START 2021113.2142
+ IEF032I STEP/JSTEP01 /STOP  2021113.2142 
+         CPU:     0 HR  00 MIN  00.09 SEC    SRB:     0 HR  00 MIN  00.00 SEC    
+         VIRT:   584K  SYS:   244K  EXT:        0K  SYS:    11496K
+         ATB- REAL:                  2128K  SLOTS:                     0K
+              VIRT- ALLOC:      13M SHRD:       0M
+ IEF375I  JOB/KC03D2BA/START 2021113.2142
+ IEF033I  JOB/KC03D2BA/STOP  2021113.2142 
+         CPU:     0 HR  00 MIN  00.09 SEC    SRB:     0 HR  00 MIN  00.00 SEC    
+1*** ASSIST 4.0/A2-05/15/82  470/V7A/0:OS/VS2  INS=SDFP7/X=BGHO, CHECK/TRC/=1180, OPTS=CDKMPR FROM PENN ST*NIU COMPSCI*LT         
+0                                                                                                                                 
+0                                                                                                               PAGE    1         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+                                       1 ******************************************************************                       
+                                       2 *                                                                *                       
+                                       3 *  CSCI 360             ASSIGNMENT 3                SPRING 2021  *                       
+                                       4 *                                                                *                       
+                                       5 *  DATE DUE:  04/23/21                                           *                       
+                                       6 *  TIME DUE:  11:59 PM                                           *                       
+                                       7 *                                                                *                       
+                                       8 *  AUTHOR: Milena Zlaticanin                                     *                       
+                                       9 *                                                                *                       
+                                      10 *  DESCRIPTION:                                                  *                       
+                                      11 *   Assignment 3: Boston Housing Model Evaluation Program        *                       
+                                      12 *   The program  will write will take a set of models and the    *                       
+                                      13 *   housing data, and then calculate the Mean Squared  Error     *                       
+                                      14 *   (MSE) statistic for each.                                    *                       
+                                      15 ******************************************************************                       
+                                      16 * DSECT for addressing rows in packed decimals table                                     
+                                      17 * Used to demonstrate use of DSECTS in a (constrained) dynamic                           
+                                      18 * fashion, though limits the flexibility of the code                                     
+ 000000                               19 $MDLTABL DSECT                                                                           
+ 000000                               20 $COEFFS  DS    13PL5           MODEL COEFFS - 13 COLUMNS OF 5 BYTES                      
+ 000041                               21 $MSE     DS    PL6                                                                       
+                                      22 *                                                                                        
+ 000000                               23 $HTABL   DSECT                                                                           
+ 000000                               24 $FTDAT   DS    13PL5           HOUSING FEATURE DATA - 13 CLM OF 5 BYTES                  
+ 000041                               25 $Y       DS    PL5                                                                       
+ 000046                               26 $YHAT    DS    PL5                                                                       
+                                      27 *                                                                                        
+ 000000                               28 MAIN     CSECT                                                                           
+                                      29 * ==== Entry linkage ===========                                                         
+ 000000                               30          USING MAIN,12         ESTABLISH ADDRESSABILITY ON REG 12                        
+                                      31 * Back up caller's register state                                                        
+ 000000 90EC D00C            0000C    32          STM   14,12,12(13)    SAVE REGS IN CALLER'S SAVE AREA                           
+                                      33 * Establish local addressability                                                         
+ 000004 18CF                          34          LR    12,15           COPY CSECT ADDRESS INTO REG 12                            
+                                      35 * Store backwards, forwards pointers                                                     
+ 000006 41E0 C084            00084    36          LA    14,MAINSAVE     POINT R14 AT THE CSECT'S SAVE AREA                        
+ 00000A 50E0 D008            00008    37          ST    14,8(,13)       STORE ADDRESS OF THIS CSECT'S SAVE AREA                   
+ 00000E 50D0 E004            00004    38          ST    13,4(,14)       STORE ADDRESS OF CALLER'S SAVE AREA                       
+                                      39 * Preemptively point r13 at local save area                                              
+ 000012 18DE                          40          LR    13,14           POINT R13 AT CALLER'S SAVE AREA                           
+                                      41 *                                                                                        
+                                      42 * Read labels                                                                            
+ 000014 4110 C0CC            000CC    43          LA    1,RDLPARAM                                                                
+ 000018 58F0 C070            00070    44          L     15,=V(READLBLS)                                                           
+ 00001C 05EF                          45          BALR  14,15                                                                     
+                                      46 *                                                                                        
+                                      47 * Read models                                                                            
+ 00001E 4110 C0D0            000D0    48          LA    1,RDIPARAM                                                                
+ 000022 58F0 C074            00074    49          L     15,=V(READMDLS)                                                           
+ 000026 05EF                          50          BALR  14,15                                                                     
+                                      51 *                                                                                        
+                                      52 * Read data to table                                                                     
+1                                                                                                               PAGE    2         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+ 000028 4110 C0DC            000DC    53          LA    1,RDDPARAM                                                                
+ 00002C 58F0 C078            00078    54          L     15,=V(READDATA)                                                           
+ 000030 05EF                          55          BALR  14,15           BRANCH AND LINK                                           
+                                      56 *                                                                                        
+                                      57 * Compute y's and MSE                                                                    
+ 000032 4120 C184            00184    58          LA    2,MODLTBL       START OF MODEL TABLE                                      
+ 000036 4140 C2E7            002E7    59          LA    4,MODLEND-1     END OF MODEL TABLE                                        
+ 00003A 4110 C0E8            000E8    60 MSELP    LA    1,PMEVAL                                                                  
+ 00003E 58F0 C07C            0007C    61          L     15,=V(EVALMODL)                                                           
+ 000042 05EF                          62          BALR  14,15           BRANCH AND LINK                                           
+                                      63 *                                                                                        
+ 000044 4120 2047            00047    64          LA    2,71(,2)                                                                  
+ 000048 5020 C0E8            000E8    65          ST    2,PMEVAL        STORE PMEVAL IN THE LIST                                  
+ 00004C 1924                          66          CR    2,4             COMPARE                                                   
+ 00004E 4740 C03A            0003A    67          BL    MSELP           BRANCH TO LABEL                                           
+                                      68 *                                                                                        
+                                      69 * Print report                                                                           
+ 000052 4110 C0F8            000F8    70          LA    1,PRNTPRM                                                                 
+ 000056 58F0 C080            00080    71          L     15,=V(SHWRESLT)                                                           
+ 00005A 05EF                          72          BALR  14,15           BRANCH AND LINK                                           
+                                      73 *                                                                                        
+                                      74 * ==== Exit linkage ============                                                         
+ 00005C 1BFF                          75          SR    15,15           SET RETURN CODE TO 0                                      
+ 00005E 58D0 D004            00004    76          L     13,4(,13)       POINT R13 TO CALLER'S SAVE AREA                           
+ 000062 58E0 D00C            0000C    77          L     14,12(,13)      RESTORE R14                                               
+ 000066 980C D014            00014    78          LM    0,12,20(13)     RESTORE R0 THRU R12                                       
+ 00006A 07FE                          79          BR    14              RETURN TO CALLER                                          
+                                      80 *                                                                                        
+                                      81          LTORG                                                                           
+ 000070 00009728                      82                =V(READLBLS)                                                              
+ 000074 00009828                      83                =V(READMDLS)                                                              
+ 000078 00009978                      84                =V(READDATA)                                                              
+ 00007C 00009AB0                      85                =V(EVALMODL)                                                              
+ 000080 00009D30                      86                =V(SHWRESLT)                                                              
+                                      87 *                                                                                        
+ 000084                               88 MAINSAVE DS    18F             PROGRAM'S SAVE AREA                                       
+                                      89 *                                                                                        
+ 0000CC 00000104                      90 RDLPARAM DC    A(LABELAR)                                                                
+ 0000D0 00000184000002E8              91 RDIPARAM DC    A(MODLTBL,MODLEND,CNTCOEF)                                                
+ 0000DC 000002E800009726              92 RDDPARAM DC    A(HOUSTBL,HOUSEND,CNTROWS)                                                
+ 0000E8 00000184000002E8              93 PMEVAL   DC    A(MODLTBL,HOUSTBL,HOUSEND-1,CNTROWS)                                      
+ 0000F8 0000010400000184              94 PRNTPRM  DC    A(LABELAR,MODLTBL,MODLEND-1)                                              
+                                      95 *                                                                                        
+ 000104                               96 LABELAR  DS    13CL9           ARRAY, 13 COL 13-9                                        
+ 00017C                               97 CNTCOEF  DS    F'0'            COUNT THE NUMBER OF COEFFS                                
+                                      98 *                                                                                        
+ 000180                               99 CNTROWS  DS    F'0'            COUNT THE NUM OF ROWS FROM FILE                           
+                                     100 *                                                                                        
+ 000184                              101 MODLTBL  DS    5CL71           MODL TABLE START                                          
+ 0002E8                              102 MODLEND  DS    0H              MODL TABLE END                                            
+                                     103 *                                                                                        
+ 0002E8                              104 HOUSTBL  DS    100CL75         HOUSING DATA TABLE, 506 ROWS                              
+ 002034                              105          DS    100CL75                                                                   
+ 003D80                              106          DS    100CL75                                                                   
+ 005ACC                              107          DS    100CL75                                                                   
+ 007818                              108          DS    100CL75                                                                   
+ 009564                              109          DS    6CL75                                                                     
+1                                                                                                               PAGE    3         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+ 009726                              110 HOUSEND  DS    0H              TABLE END                                                 
+                                     111 *                                                                                        
+                                     112 ********************************************************************                     
+                                     113 *                     READLBLS                                     *                     
+                                     114 *      REG USAGE:  REG 2 -> LABELAR                                *                     
+                                     115 ********************************************************************                     
+ 009728                              116 READLBLS CSECT                                                                           
+                                     117 * ==== Entry linkage ===========                                                         
+                                     118 *                                                                                        
+ 009728                              119          USING READLBLS,12     ESTABLISH ADDRESSABILITY ON REG 12                        
+ 009728 90EC D00C            0000C   120          STM   14,12,12(13)    SAVE REGS IN CALLER'S SAVE AREA                           
+ 00972C 18CF                         121          LR    12,15           COPY CSECT ADDRESS INTO REG 12                            
+ 00972E 41E0 C068            09790   122          LA    14,RDLBSAVE     POINT R14 AT THE CSECT'S SAVE AREA                        
+ 009732 50E0 D008            00008   123          ST    14,8(,13)       STORE ADDRESS OF THIS CSECT'S SAVE AREA                   
+ 009736 50D0 E004            00004   124          ST    13,4(,14)       STORE ADDRESS OF CALLER'S SAVE AREA                       
+ 00973A 18DE                         125          LR    13,14           POINT R13 AT CALLER'S SAVE AREA                           
+                                     126 *                                                                                        
+                                     127 *                                                                                        
+ 00973C 5821 0000            00000   128          L     2,0(1)          LOAD REG 2 AND STORE IT IN LABELAR                        
+                                     129 *                                                                                        
+ 009740 E000 C0B0 0050 097D8         130          XREAD RBUFFER,80      READ                                                      
+                                     131 *                                                                                        
+ 009746 4150 0008            00008   132          LA    5,8             READ FIRST 8 LABELS                                       
+ 00974A 4160 C0B0            097D8   133          LA    6,RBUFFER       LOAD RBUFFER ADDRESS INTO REG 6                           
+                                     134 *                                                                                        
+ 00974E D208 2000 6000 00000 00000   135 RDLOOP   MVC   0(9,2),0(6)     MOVE CHAR FROM REG 2 TO REG 6                             
+ 009754 4120 2009            00009   136          LA    2,9(,2)         INCREMENT                                                 
+ 009758 4160 6009            00009   137          LA    6,9(,6)         LOAD TO THE NEXT VALUE                                    
+ 00975C 4650 C026            0974E   138          BCT   5,RDLOOP        BRANCH ON COUNT                                           
+                                     139 *                                                                                        
+ 009760 E000 C0B0 0050 097D8         140          XREAD RBUFFER,80                                                                
+ 009766 4150 0005            00005   141          LA    5,5             READ LAST 5 LABELS                                        
+ 00976A 4160 C0B0            097D8   142          LA    6,RBUFFER       LOAD RBUFFER INTO REG 6                                   
+                                     143 *                                                                                        
+ 00976E D208 2000 6000 00000 00000   144 RDLOOP1  MVC   0(9,2),0(6)     MOVE CHAR FROM REG 2 TO REG 6                             
+ 009774 4120 2009            00009   145          LA    2,9(,2)         INCREMENT                                                 
+ 009778 4160 6009            00009   146          LA    6,9(,6)         LOAD TO THE NEXT VALUE                                    
+ 00977C 4650 C046            0976E   147          BCT   5,RDLOOP1       BRANCH ON COUNT                                           
+                                     148 *                                                                                        
+                                     149 * ==== Exit linkage ============                                                         
+ 009780 1BFF                         150          SR    15,15           SET RETURN CODE TO 0                                      
+ 009782 58D0 D004            00004   151          L     13,4(,13)       POINT R13 TO CALLER'S SAVE AREA                           
+ 009786 58E0 D00C            0000C   152          L     14,12(,13)      RESTORE R14                                               
+ 00978A 980C D014            00014   153          LM    0,12,20(13)     RESTORE R0 THRU R12                                       
+ 00978E 07FE                         154          BR    14              RETURN TO CALLER                                          
+                                     155 *                                                                                        
+                                     156          LTORG                                                                           
+                                     157 *                                                                                        
+ 009790                              158 RDLBSAVE DS    18F             PROGRAM'S SAVE AREA                                       
+                                     159 *                                                                                        
+ 0097D8                              160 RBUFFER  DS    CL80            COEFFICIENTS READ BUFFER                                  
+                                     161 *                                                                                        
+                                     162 ********************************************************************                     
+                                     163 *                     READMDLS                                     *                     
+                                     164 *      REG USAGE:  REG 2 -> MODLTBL                                *                     
+                                     165 *                  REG 3 -> MODLEND                                *                     
+                                     166 *                  REG 4 -> CNTCOEF                                *                     
+1                                                                                                               PAGE    4         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+                                     167 ********************************************************************                     
+ 009828                              168 READMDLS CSECT                                                                           
+                                     169 * ==== Entry linkage ===========                                                         
+                                     170 *                                                                                        
+ 009828                              171          USING READMDLS,12     ESTABLISH ADDRESSABILITY ON REG 12                        
+ 009828 90EC D00C            0000C   172          STM   14,12,12(13)    SAVE REGS IN CALLER'S SAVE AREA                           
+ 00982C 18CF                         173          LR    12,15           COPY CSECT ADDRESS INTO REG 12                            
+ 00982E 41E0 C0AC            098D4   174          LA    14,RDMDSAVE     POINT R14 AT THE CSECT'S SAVE AREA                        
+ 009832 50E0 D008            00008   175          ST    14,8(,13)       STORE ADDRESS OF THIS CSECT'S SAVE AREA                   
+ 009836 50D0 E004            00004   176          ST    13,4(,14)       STORE ADDRESS OF CALLER'S SAVE AREA                       
+ 00983A 18DE                         177          LR    13,14           POINT R13 AT CALLER'S SAVE AREA                           
+                                     178 *                                                                                        
+ 00983C 9823 1000            00000   179          LM    2,3,0(1)        LOADING THE PARAM LIST INTO THE REGS                      
+                                     180 *                                                                                        
+ 009840 1872                         181          LR    7,2             LOAD REG 7 INTO REG 2                                     
+ 009842 E000 C0F4 0050 0991C         182          XREAD RMBUFFER,80     READ                                                      
+ 009848 4770 C096            098BE   183 RMDLP    BNZ   RMDDNE          BREAK IF NO MORE RECORDS TO READ                          
+ 00984C 1923                         184          CR    2,3             IF WE ARE PAST THE END OF THE ARRAY                       
+ 00984E 47B0 C096            098BE   185          BNL   RMDDNE          BRANCH NO LINK                                            
+                                     186 *                                                                                        
+ 009852 4140 C0F4            0991C   187          LA    4,RMBUFFER      RELOAD MODEL BUFFER IN REG 4                              
+ 009856 4150 0008            00008   188          LA    5,8             LINE BREAK                                                
+ 00985A 4160 000D            0000D   189          LA    6,13            COUNT THE TOTAL NUMBER OF COEFFS                          
+                                     190 *                                                                                        
+                                     191 * Check for sentinel '*'                                                                 
+ 00985E 955C 4000      00000         192          CLI   0(4),C'*'       IF WE FIND '*'                                            
+ 009862 4780 C096            098BE   193          BE    RMDDNE          THEN BREAK OUT                                            
+                                     194 *                                                                                        
+ 009866                              195 RMDLOOP1 DS    0H                                                                        
+                                     196 *                                                                                        
+ 009866 F246 2000 4000 00000 00000   197          PACK  0(5,2),0(7,4)                                                             
+                                     198 *                                                                                        
+                                     199 * Check for negative sign                                                                
+ 00986C 9560 4007      00007         200          CLI   7(4),C'-'                                                                 
+ 009870 4770 C05E            09886   201          BNE   NGTPSTN         BRANCH OUT IF NEGATIVE SIGN FOUND                         
+ 009874 F854 C144 2000 0996C 00000   202          ZAP   PTEMP(6),0(5,2)                                                           
+ 00987A FC50 C144 C0A8 0996C 098D0   203          MP    PTEMP(6),=PL1'-1'                                                         
+ 009880 F844 2000 C145 00000 0996D   204          ZAP   0(5,2),PTEMP+1(5)                                                         
+                                     205 *                                                                                        
+ 009886 4120 2005            00005   206 NGTPSTN  LA    2,5(,2)                                                                   
+ 00988A 4140 4009            00009   207          LA    4,9(,4)                                                                   
+                                     208 *                                                                                        
+ 00988E 4660 C080            098A8   209          BCT   6,CNTLN         COUNT THE LINES                                           
+ 009892 4170 7047            00047   210          LA    7,71(,7)                                                                  
+ 009896 4120 2006            00006   211          LA    2,6(,2)         POINT REG 2 AT THE NEXT ROW IN TBL                        
+ 00989A 4140 C0F4            0991C   212          LA    4,RMBUFFER      RELOAD MODEL BUFFER IN REG 4                              
+ 00989E E000 C0F4 0050 0991C         213          XREAD RMBUFFER,80     READ                                                      
+ 0098A4 47F0 C020            09848   214          B     RMDLP           BRANCH                                                    
+                                     215 *                                                                                        
+ 0098A8 4650 C03E            09866   216 CNTLN    BCT   5,RMDLOOP1                                                                
+                                     217 *                                                                                        
+ 0098AC 4140 C0F4            0991C   218          LA    4,RMBUFFER      RELOAD MODEL BUFFER IN REG 4                              
+ 0098B0 4150 0008            00008   219          LA    5,8             LINE BREAK                                                
+ 0098B4 E000 C0F4 0050 0991C         220          XREAD RMBUFFER,80     READ                                                      
+ 0098BA 47F0 C03E            09866   221          B     RMDLOOP1                                                                  
+                                     222 *                                                                                        
+ 0098BE                              223 RMDDNE   DS    0H                                                                        
+1                                                                                                               PAGE    5         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+                                     224 *                                                                                        
+                                     225 * ==== Exit linkage ============                                                         
+ 0098BE 1BFF                         226          SR    15,15          REG 15 SETS RETURN CODE TO 0                               
+ 0098C0 58D0 D004            00004   227          L     13,4(,13)      POINT REG 13 TO CALLER'S SAVE AREA                         
+ 0098C4 58E0 D00C            0000C   228          L     14,12(,13)     RESTORE REG 14                                             
+ 0098C8 980C D014            00014   229          LM    0,12,20(13)    RESTORE REG 0 THRU REG 12                                  
+ 0098CC 07FE                         230          BR    14             RETURN TO CALLER                                           
+                                     231 *                                                                                        
+                                     232          LTORG                                                                           
+ 0098D0 1D                           233                =PL1'-1'                                                                  
+                                     234 *                                                                                        
+ 0098D4                              235 RDMDSAVE DS    18F'-1'        PROGRAM'S SAVE AREA                                        
+ 00991C                              236 RMBUFFER DS    CL80                                                                      
+ 00996C 00000000000C                 237 PTEMP    DC    PL6'0'                                                                    
+                                     238 *                                                                                        
+                                     239 ********************************************************************                     
+                                     240 *                     READDATA                                     *                     
+                                     241 *      REG USAGE:  REG 2 -> HOUSTBL                                *                     
+                                     242 *                  REG 3 -> HOUSEND                                *                     
+                                     243 *                  REG 4 -> CNTCOEF                                *                     
+                                     244 ********************************************************************                     
+ 009978                              245 READDATA CSECT                                                                           
+                                     246 * ==== Entry linkage ===========                                                         
+                                     247 *                                                                                        
+ 009978                              248          USING READDATA,12     ESTABLISH ADDRESSABILITY ON REG 12                        
+ 009978 90EC D00C            0000C   249          STM   14,12,12(13)    SAVE REGS IN CALLER'S SAVE AREA                           
+ 00997C 18CF                         250          LR    12,15           COPY CSECT ADDRESS INTO REG 12                            
+ 00997E 41E0 C0A0            09A18   251          LA    14,RDDTSAVE     POINT R14 AT THE CSECT'S SAVE AREA                        
+ 009982 50E0 D008            00008   252          ST    14,8(,13)       STORE ADDRESS OF THIS CSECT'S SAVE AREA                   
+ 009986 50D0 E004            00004   253          ST    13,4(,14)       STORE ADDRESS OF CALLER'S SAVE AREA                       
+ 00998A 18DE                         254          LR    13,14           POINT R13 AT CALLER'S SAVE AREA                           
+                                     255 *                                                                                        
+ 00998C 9824 1000            00000   256          LM    2,4,0(1)        LOAD MULTIPLE PARAMETERS IN THE LIST                      
+                                     257 *                                                                                        
+ 000000                              258          USING $HTABL,2        ESTABLISHING ADDRESSABILITY                               
+ 009990 4170 0000            00000   259          LA    7,0             INITIALIZING CNTROWS                                      
+                                     260 *                                                                                        
+ 009994 E000 C0E8 0050 09A60         261          XREAD RDATBUFF,80     READ                                                      
+ 00999A 4770 C088            09A00   262          BNZ   RDATDNE         BREAK OUT                                                 
+ 00999E 4170 7001            00001   263          LA    7,1(,7)         ADD 1 TO CNTCOEF                                          
+ 0099A2 4150 C0E8            09A60   264          LA    5,RDATBUFF      LOAD RDATBUFF INTO REG 5                                  
+ 0099A6 4160 0008            00008   265          LA    6,8             READING FIRST 8 COEFFS OF THE HOUSTBL                     
+                                     266 *                                                                                        
+ 0099AA 1923                         267 RDTLOOP  CR    2,3             DON'T GO PAST END OF THE TABLE                            
+ 0099AC 4780 C088            09A00   268          BE    RDATDNE         BREAK OUT                                                 
+                                     269 *                                                                                        
+ 0099B0 F247 2000 5000 00000 00000   270 COUNTLN  PACK  0(5,2),0(8,5)   PACKING COEFFS                                            
+ 0099B6 4120 2005            00005   271          LA    2,5(,2)                                                                   
+ 0099BA 4150 5009            00009   272          LA    5,9(,5)                                                                   
+ 0099BE 4660 C038            099B0   273          BCT   6,COUNTLN       BRANCH ON COUNT                                           
+                                     274 *                                                                                        
+ 0099C2 E000 C0E8 0050 09A60         275          XREAD RDATBUFF,80     READ                                                      
+ 0099C8 4150 C0E8            09A60   276          LA    5,RDATBUFF      RELOAD RDATBUFF                                           
+ 0099CC 4160 0006            00006   277          LA    6,6                                                                       
+                                     278 *                                                                                        
+ 0099D0 F247 2000 5000 00000 00000   279 COUNTLN1 PACK  0(5,2),0(8,5)   PACKING COEFFS                                            
+ 0099D6 4120 2005            00005   280          LA    2,5(,2)                                                                   
+1                                                                                                               PAGE    6         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+ 0099DA 4150 5009            00009   281          LA    5,9(,5)                                                                   
+ 0099DE 4660 C058            099D0   282          BCT   6,COUNTLN1      BRANCH ON COUNT                                           
+                                     283 *                                                                                        
+ 0099E2 E000 C0E8 0050 09A60         284          XREAD RDATBUFF,80     READ                                                      
+ 0099E8 4770 C088            09A00   285          BNZ   RDATDNE         BREAK OUT                                                 
+ 0099EC 4170 7001            00001   286          LA    7,1(,7)         ADD 1 TO CNTCOEF                                          
+ 0099F0 4150 C0E8            09A60   287          LA    5,RDATBUFF      RELOAD RDATBUFF                                           
+ 0099F4 4160 0008            00008   288          LA    6,8                                                                       
+ 0099F8 4120 2005            00005   289          LA    2,5(,2)                                                                   
+ 0099FC 47F0 C032            099AA   290          B     RDTLOOP         CONTINUE READING IF THERE IS SMT TO READ                  
+                                     291 *                                                                                        
+ 009A00                              292 RDATDNE  DS    0H                                                                        
+ 009A00                              293          DROP  2                                                                         
+ 009A00 5070 4000            00000   294          ST    7,0(,4)         STORE ADDRESS                                             
+                                     295 *                                                                                        
+                                     296 * ==== Exit linkage ============                                                         
+ 009A04 1BFF                         297          SR    15,15           SET RETURN CODE TO 0                                      
+ 009A06 58D0 D004            00004   298          L     13,4(,13)       POINT R13 TO CALLER'S SAVE AREA                           
+ 009A0A 58E0 D00C            0000C   299          L     14,12(,13)      RESTORE R14                                               
+ 009A0E 980C D014            00014   300          LM    0,12,20(13)     RESTORE R0 THRU R12                                       
+ 009A12 07FE                         301          BR    14              RETURN TO CALLER                                          
+                                     302 *                                                                                        
+                                     303          LTORG                                                                           
+                                     304 *                                                                                        
+ 009A18                              305 RDDTSAVE DS    18F             PROGRAM'S SAVE AREA                                       
+ 009A60                              306 RDATBUFF DS    CL80                                                                      
+                                     307 *                                                                                        
+                                     308 ********************************************************************                     
+                                     309 *                     EVALMODL                                     *                     
+                                     310 *      REG USAGE:  REG 2 -> CNTROWS                                *                     
+                                     311 *                  REG 3 -> HOUSTBL                                *                     
+                                     312 *                  REG 4 -> HOUSEND                                *                     
+                                     313 *                  REG 5 -> CNTCOEF                                *                     
+                                     314 ********************************************************************                     
+ 009AB0                              315 EVALMODL CSECT                                                                           
+                                     316 * ==== Entry linkage ===========                                                         
+                                     317 *                                                                                        
+ 009AB0                              318          USING EVALMODL,12     ESTABLISH ADDRESSABILITY ON REG 12                        
+ 009AB0 90EC D00C            0000C   319          STM   14,12,12(13)    SAVE REGS IN CALLER'S SAVE AREA                           
+ 009AB4 18CF                         320          LR    12,15           COPY CSECT ADDRESS INTO REG 12                            
+ 009AB6 41E0 C070            09B20   321          LA    14,RDEVSAVE     POINT R14 AT THE CSECT'S SAVE AREA                        
+ 009ABA 50E0 D008            00008   322          ST    14,8(,13)       STORE ADDRESS OF THIS CSECT'S SAVE AREA                   
+ 009ABE 50D0 E004            00004   323          ST    13,4(,14)       STORE ADDRESS OF CALLER'S SAVE AREA                       
+ 009AC2 18DE                         324          LR    13,14           POINT R13 AT CALLER'S SAVE AREA                           
+                                     325 *                                                                                        
+ 009AC4 9825 1000            00000   326          LM    2,5,0(1)        LOAD MULTIPLE PARAMETERS IN THE LIST                      
+                                     327 *                                                                                        
+ 000000                              328          USING $HTABL,3        ESTABLISHING ADDRESSABILITY FOR HTABL                     
+ 000000                              329          USING $MDLTABL,2      ESTABLISHING ADDRESSABILITY FOR MDLTABL                   
+ 009AC8 5020 C0B8            09B68   330          ST    2,PYHAT         STORE ADDRESS IN THE LIST TO CALC YHAT                    
+ 009ACC 1873                         331          LR    7,3             LOAD REGISTER                                             
+                                     332 *                                                                                        
+ 009ACE 5070 C0BC            09B6C   333 YHATLP   ST    7,PYHAT+4       LOOK THROUGH THE HOUSE DATA TABLE                         
+                                     334 *                                                                                        
+                                     335 * Calculate PYHAT                                                                        
+ 009AD2 4110 C0B8            09B68   336          LA    1,PYHAT                                                                   
+ 009AD6 58F0 C068            09B18   337          L     15,=V(CALCYHAT)                                                           
+1                                                                                                               PAGE    7         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+ 009ADA 05EF                         338          BALR  14,15                                                                     
+                                     339 *                                                                                        
+ 009ADC 4170 704B            0004B   340          LA    7,75(,7)                                                                  
+ 009AE0 1974                         341          CR    7,4             DON'T GO PAST END OF THE TABLE                            
+ 009AE2 4740 C01E            09ACE   342          BL    YHATLP          BRANCH TO LABEL                                           
+                                     343 *                                                                                        
+                                     344 * Calculate PMSE                                                                         
+ 009AE6 4180 2041            00041   345          LA    8,$MSE          LOAD MSE ADDRESS INTO REG 8                               
+ 009AEA 5080 C0C0            09B70   346          ST    8,PMSE          STORE REG 8 IN PMSE LIST                                  
+ 009AEE 5030 C0C4            09B74   347          ST    3,PMSE+4        STORE REG 3 IN PMSE LIST                                  
+ 009AF2 5040 C0C8            09B78   348          ST    4,PMSE+8        STORE REG 4 IN PMSE LIST                                  
+ 009AF6 5050 C0CC            09B7C   349          ST    5,PMSE+12       STORE REG 5 IN PMSE LIST                                  
+                                     350 *                                                                                        
+                                     351 * Go back to the MSE subroutine                                                          
+ 009AFA 4110 C0C0            09B70   352          LA    1,PMSE                                                                    
+ 009AFE 58F0 C06C            09B1C   353          L     15,=V(CALCMSE)                                                            
+ 009B02 05EF                         354          BALR  14,15           BRANCH AND LINK                                           
+                                     355 *                                                                                        
+                                     356 *                                                                                        
+ 009B04                              357 REVLDNE  DS    0H                                                                        
+ 009B04                              358          DROP  2,3                                                                       
+                                     359 *                                                                                        
+                                     360 * ==== Exit linkage ============                                                         
+ 009B04 1BFF                         361          SR    15,15           SET RETURN CODE TO 0                                      
+ 009B06 58D0 D004            00004   362          L     13,4(,13)       POINT R13 TO CALLER'S SAVE AREA                           
+ 009B0A 58E0 D00C            0000C   363          L     14,12(,13)      RESTORE R14                                               
+ 009B0E 980C D014            00014   364          LM    0,12,20(13)     RESTORE R0 THRU R12                                       
+ 009B12 07FE                         365          BR    14              RETURN TO CALLER                                          
+                                     366 *                                                                                        
+                                     367          LTORG                                                                           
+ 009B18 00009B88                     368                =V(CALCYHAT)                                                              
+ 009B1C 00009C48                     369                =V(CALCMSE)                                                               
+                                     370 *                                                                                        
+ 009B20                              371 RDEVSAVE DS    18F             PROGRAM'S SAVE AREA                                       
+                                     372 *                                                                                        
+ 009B68 00009B7C00009B80             373 PYHAT    DC    A(REVCOEF,REVCOEF1)                                                       
+ 009B70 00009B7C00009B80             374 PMSE     DC    A(REVCOEF,REVCOEF1,CNTEVAL)                                               
+                                     375 *                                                                                        
+ 009B7C                              376 REVCOEF  DS    F                                                                         
+ 009B80                              377 REVCOEF1 DS    F                                                                         
+ 009B84                              378 CNTEVAL  DS    F                                                                         
+                                     379 *                                                                                        
+                                     380 ********************************************************************                     
+                                     381 *                     CALCYHAT                                     *                     
+                                     382 *      REG USAGE:  REG 2 -> CNTROWS                                *                     
+                                     383 *                  REG 3 -> CNTCOEF                                *                     
+                                     384 ********************************************************************                     
+ 009B88                              385 CALCYHAT CSECT                                                                           
+                                     386 * ==== Entry linkage ===========                                                         
+                                     387 *                                                                                        
+ 009B88                              388          USING CALCYHAT,12     ESTABLISH ADDRESSABILITY ON REG 12                        
+ 009B88 90EC D00C            0000C   389          STM   14,12,12(13)    SAVE REGS IN CALLER'S SAVE AREA                           
+ 009B8C 18CF                         390          LR    12,15           COPY CSECT ADDRESS INTO REG 12                            
+ 009B8E 41E0 C064            09BEC   391          LA    14,RDYHSAVE     POINT R14 AT THE CSECT'S SAVE AREA                        
+ 009B92 50E0 D008            00008   392          ST    14,8(,13)       STORE ADDRESS OF THIS CSECT'S SAVE AREA                   
+ 009B96 50D0 E004            00004   393          ST    13,4(,14)       STORE ADDRESS OF CALLER'S SAVE AREA                       
+ 009B9A 18DE                         394          LR    13,14           POINT R13 AT CALLER'S SAVE AREA                           
+1                                                                                                               PAGE    8         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+                                     395 *                                                                                        
+ 009B9C 9823 1000            00000   396          LM    2,3,0(1)        LOAD MULTIPLE PARAMETERS IN THE LIST                      
+                                     397 *                                                                                        
+ 000000                              398          USING $HTABL,3        ESTABLISHING ADDRESSABILITY FOR HTABL                     
+ 009BA0 1853                         399          LR    5,3             LOAD REG 5 INTO REG 4                                     
+ 009BA2 4140 000D            0000D   400          LA    4,13            COUNT COLUMNS                                             
+                                     401 *                                                                                        
+                                     402 *                                                                                        
+ 009BA6 F8A4 C0AC 2000 09C34 00000   403 YHATLP1  ZAP   PTEMPYH(11),0(5,2)      ZAP COEFFS                                        
+ 009BAC FCA4 C0AC 5000 09C34 00000   404          MP    PTEMPYH(11),0(5,5)      TEMP FIELD FOR THE HOUSE DATA                     
+ 009BB2 F0A5 C0AC 003B 09C34 0003B   405          SRP   PTEMPYH(11),64-5,5      ROUNDING TO 4 DEC PLACES                          
+ 009BB8 FA44 C0B7 C0B2 09C3F 09C3A   406          AP    PRSLTYH(5),PTEMPYH+6(5) ADD PTEMYHAT TO YHAT                              
+ 009BBE 4120 2005            00005   407          LA    2,5(,2)                 GET THE COEFF VALUE                               
+ 009BC2 4150 5005            00005   408          LA    5,5(,5)                 GET THE DATA VALUE                                
+ 009BC6 4640 C01E            09BA6   409          BCT   4,YHATLP1               BRANCH ON COUNT                                   
+                                     410 *                                                                                        
+ 009BCA F844 3046 C0B7 00046 09C3F   411          ZAP   $YHAT(5),PRSLTYH(5)     CALCULATE TOTAL                                   
+ 009BD0 F840 C0B7 C060 09C3F 09BE8   412          ZAP   PRSLTYH(5),=P'0'                                                          
+ 009BD6                              413          DROP  3                                                                         
+                                     414 *                                                                                        
+                                     415 * ==== Exit linkage ============                                                         
+ 009BD6 1BFF                         416          SR    15,15           SET RETURN CODE TO 0                                      
+ 009BD8 58D0 D004            00004   417          L     13,4(,13)       POINT R13 TO CALLER'S SAVE AREA                           
+ 009BDC 58E0 D00C            0000C   418          L     14,12(,13)      RESTORE R14                                               
+ 009BE0 980C D014            00014   419          LM    0,12,20(13)     RESTORE R0 THRU R12                                       
+ 009BE4 07FE                         420          BR    14              RETURN TO CALLER                                          
+                                     421 *                                                                                        
+                                     422          LTORG                                                                           
+ 009BE8 0C                           423                =P'0'                                                                     
+                                     424 *                                                                                        
+ 009BEC                              425 RDYHSAVE DS    18F             ROUTINE'S SAVE AREA                                       
+                                     426 *                                                                                        
+ 009C34 0000000000000000             427 PTEMPYH  DC    PL11'0'                                                                   
+ 009C3F 000000000C                   428 PRSLTYH  DC    PL5'0'                                                                    
+                                     429 *                                                                                        
+                                     430 ********************************************************************                     
+                                     431 *                     CALCMSE                                      *                     
+                                     432 *      REG USAGE:  REG 2 -> CNTROWS                                *                     
+                                     433 *                  REG 3 -> HOUSTBL                                *                     
+                                     434 *                  REG 4 -> HOUSEND                                *                     
+                                     435 *                  REG 5 -> CNTCOEF                                *                     
+                                     436 ********************************************************************                     
+ 009C48                              437 CALCMSE CSECT                                                                            
+                                     438 * ==== Entry linkage ===========                                                         
+                                     439 *                                                                                        
+ 009C48                              440          USING CALCMSE,12      ESTABLISH ADDRESSABILITY ON REG 12                        
+ 009C48 90EC D00C            0000C   441          STM   14,12,12(13)    SAVE REGS IN CALLER'S SAVE AREA                           
+ 009C4C 18CF                         442          LR    12,15           COPY CSECT ADDRESS INTO REG 12                            
+ 009C4E 41E0 C080            09CC8   443          LA    14,RMSESAVE     POINT R14 AT THE CSECT'S SAVE AREA                        
+ 009C52 50E0 D008            00008   444          ST    14,8(,13)       STORE ADDRESS OF THIS CSECT'S SAVE AREA                   
+ 009C56 50D0 E004            00004   445          ST    13,4(,14)       STORE ADDRESS OF CALLER'S SAVE AREA                       
+ 009C5A 18DE                         446          LR    13,14           POINT R13 AT CALLER'S SAVE AREA                           
+                                     447 *                                                                                        
+ 009C5C 9825 1000            00000   448          LM    2,5,0(1)        LOAD MULTIPLE PARAMETERS IN THE LIST                      
+                                     449 *                                                                                        
+ 009C60 1863                         450          LR    6,3                                                                       
+ 000000                              451          USING $HTABL,6        ESTABLISHING ADDRESSABILITY FOR HTABL                     
+1                                                                                                               PAGE    9         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+                                     452 *                                                                                        
+                                     453 * Calculations for MSE Statistics                                                        
+ 009C62 F854 C0C8 6041 09D10 00041   454 MSECLCS  ZAP   YSTAT(6),$Y(5)         ZAP Y IN YSTAT                                     
+ 009C68 FB54 C0C8 6046 09D10 00046   455          SP    YSTAT(6),$YHAT(5)      (yi  yi)                                         
+ 009C6E F8B5 C0CE C0C8 09D16 09D10   456          ZAP   SUMY(12),YSTAT(6)      ZAP (yi  yi) IN YSTAT                            
+ 009C74 FCB5 C0CE C0C8 09D16 09D10   457          MP    SUMY(12),YSTAT(6)      (yi  yi)^2                                       
+                                     458 *                                                                                        
+ 009C7A F0B5 C0CE 003C 09D16 0003C   459          SRP   SUMY(12),64-4,5        ROUNDING TO 4 DEC PLACES                           
+ 009C80 FA95 C0DA C0D4 09D22 09D1C   460          AP    MSERSLT(10),SUMY+6(6)  ADD THE SYMY TO THE RESULT                         
+ 009C86 4160 604B            0004B   461          LA    6,75(,6)                                                                  
+                                     462 *                                                                                        
+ 009C8A 1964                         463          CR    6,4                    DON'T GO PAST END OF THE TABLE                     
+ 009C8C 4740 C01A            09C62   464          BL    MSECLCS                                                                   
+                                     465 *                                                                                        
+ 009C90 FD93 C0DA C078 09D22 09CC0   466          DP    MSERSLT(10),=PL4'506'                                                     
+ 009C96 F855 2000 C0DA 00000 09D22   467          ZAP   0(6,2),MSERSLT(6)                                                         
+                                     468 *                                                                                        
+ 009C9C F850 C0C8 C07C 09D10 09CC4   469          ZAP   YSTAT(6),=P'0'                                                            
+ 009CA2 F8B0 C0CE C07C 09D16 09CC4   470          ZAP   SUMY(12),=P'0'                                                            
+ 009CA8 F890 C0DA C07C 09D22 09CC4   471          ZAP   MSERSLT(10),=P'0'                                                         
+ 009CAE                              472          DROP  6                                                                         
+                                     473 *                                                                                        
+                                     474 * ==== Exit linkage ============                                                         
+ 009CAE 1BFF                         475          SR    15,15           SET RETURN CODE TO 0                                      
+ 009CB0 58D0 D004            00004   476          L     13,4(,13)       POINT R13 TO CALLER'S SAVE AREA                           
+ 009CB4 58E0 D00C            0000C   477          L     14,12(,13)      RESTORE R14                                               
+ 009CB8 980C D014            00014   478          LM    0,12,20(13)     RESTORE R0 THRU R12                                       
+ 009CBC 07FE                         479          BR    14              RETURN TO CALLER                                          
+                                     480 *                                                                                        
+                                     481          LTORG                                                                           
+ 009CC0 0000506C                     482                =PL4'506'                                                                 
+ 009CC4 0C                           483                =P'0'                                                                     
+                                     484 *                                                                                        
+ 009CC8                              485 RMSESAVE DS    18F             PROGRAM'S SAVE AREA                                       
+                                     486 *                                                                                        
+ 009D10 00000000000C                 487 YSTAT    DC    PL6'0'          (yi  yi) EQUATION                                       
+ 009D16 0000000000000000             488 SUMY     DC    PL12'0'         SUM EQUATION                                              
+ 009D22 0000000000000000             489 MSERSLT  DC    PL10'0'         MSE RESULT                                                
+                                     490 *                                                                                        
+                                     491 ********************************************************************                     
+                                     492 *                     SHWRESLT                                     *                     
+                                     493 *      REG USAGE:  REG 2 -> PLABEL                                 *                     
+                                     494 *                  REG 3 -> MODLTBL                                *                     
+                                     495 *                  REG 4 -> MODLEND                                *                     
+                                     496 ********************************************************************                     
+ 009D30                              497 SHWRESLT CSECT                                                                           
+                                     498 * ==== Entry linkage ===========                                                         
+                                     499 *                                                                                        
+ 009D30                              500          USING SHWRESLT,12     ESTABLISH ADDRESSABILITY ON REG 12                        
+ 009D30 90EC D00C            0000C   501          STM   14,12,12(13)    SAVE REGS IN CALLER'S SAVE AREA                           
+ 009D34 18CF                         502          LR    12,15           COPY CSECT ADDRESS INTO REG 12                            
+ 009D36 41E0 C0FC            09E2C   503          LA    14,RSWSAVE      POINT R14 AT THE CSECT'S SAVE AREA                        
+ 009D3A 50E0 D008            00008   504          ST    14,8(,13)       STORE ADDRESS OF THIS CSECT'S SAVE AREA                   
+ 009D3E 50D0 E004            00004   505          ST    13,4(,14)       STORE ADDRESS OF CALLER'S SAVE AREA                       
+ 009D42 18DE                         506          LR    13,14           POINT R13 AT CALLER'S SAVE AREA                           
+                                     507 *                                                                                        
+ 009D44 9824 1000            00000   508          LM    2,4,0(1)        LOAD MULTIPLE PARAMETERS IN THE LIST                      
+1                                                                                                               PAGE   10         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+                                     509 *                                                                                        
+ 000000                              510          USING $MDLTABL,3      ESTABLISHING ADDRESSABILITY                               
+ 009D48 4150 000D            0000D   511          LA    5,13            13 COLUMNS                                                
+ 009D4C 4160 C1C9            09EF9   512          LA    6,PRINTLN+1     LOAD PRINTLN INTO REG 6                                   
+ 009D50 1872                         513          LR    7,2             LOAD REG 2 INTO REG 7                                     
+                                     514 *                                                                                        
+ 009D52 D208 6000 7000 00000 00000   515 PLABEL   MVC   0(9,6),0(7)     PRINT LINE FOR THE PLABEL                                 
+ 009D58 4160 6009            00009   516          LA    6,9(,6)                                                                   
+ 009D5C 9240 6000      00000         517          MVI   0(6),C' '       ADDING A BLANK SPACE                                      
+                                     518 *                                                                                        
+ 009D60 4160 6001            00001   519          LA    6,1(,6)                                                                   
+ 009D64 4170 7009            00009   520          LA    7,9(,7)                                                                   
+                                     521 *                                                                                        
+ 009D68 4650 C022            09D52   522          BCT   5,PLABEL        BRANCH ON COUNT                                           
+ 009D6C E020 C1C8 0085 09EF8         523          XPRNT PRINTLN,133                                                               
+                                     524 *                                                                                        
+ 009D72 1873                         525          LR    7,3               LOAD REG 3 INTO REG 7                                   
+ 009D74 4160 C1C9            09EF9   526          LA    6,PRINTLN+1       RELOAD PRINTLINE                                        
+ 009D78 D283 6000 C144 00000 09E74   527          MVC   0(132,6),DLTLINE  DELETE THE PRINT LINE                                   
+ 009D7E 4150 000D            0000D   528          LA    5,13              13 COLUMNS                                              
+                                     529 *                                                                                        
+ 009D82 D208 6000 C0E4 00000 09E14   530 PMODEL   MVC   0(9,6),=X'4021204B2020202020'                                             
+ 009D88 4110 6002            00002   531          LA    1,2(,6)                                                                   
+ 009D8C DF08 6000 7001 00000 00001   532          EDMK  0(9,6),1(7)     EDIT AND MARK                                             
+                                     533 *                                                                                        
+                                     534 * Check for the negative sign                                                            
+ 009D92 F940 7000 C0ED 00000 09E1D   535          CP    0(5,7),=P'0'    CHECK TO SEE IF THE SIGN IS NEGATIVE                      
+ 009D98 47B0 C072            09DA2   536          BNL   CNVRT           CONVERT                                                   
+ 009D9C 0610                         537          BCTR  1,0             DECREMENT REG 1                                           
+ 009D9E 9260 1000      00000         538          MVI   0(1),C'-'       PUT THE NEGATIVE SIGN IN PLACE                            
+                                     539 *                                                                                        
+ 009DA2 4160 6009            00009   540 CNVRT    LA    6,9(,6)                                                                   
+ 009DA6 D205 0000 0040 00000 00040   541          MVC   0(6),C' '       ADDING A BLANK SPACE                                      
+                                     542 *                                                                                        
+ 009DAC 4160 6001            00001   543          LA    6,1(,6)                                                                   
+ 009DB0 4170 7005            00005   544          LA    7,5(,7)                                                                   
+                                     545 *                                                                                        
+ 009DB4 4650 C052            09D82   546          BCT   5,PMODEL                                                                  
+ 009DB8 E020 C1C8 0085 09EF8         547          XPRNT PRINTLN,133                                                               
+                                     548 *                                                                                        
+ 009DBE 4160 C1C9            09EF9   549          LA    6,PRINTLN+1       RELOAD PRINTLINE                                        
+ 009DC2 D283 6000 C144 00000 09E74   550          MVC   0(132,6),DLTLINE  DELETE THE PRINT LINE                                   
+ 009DC8 4160 6072            00072   551          LA    6,114(,6)                                                                 
+                                     552 *                                                                                        
+ 009DCC D203 6000 C0E0 00000 09E10   553          MVC   0(4,6),=C'MSE:'   PRINTING MSE LINE                                       
+                                     554 *                                                                                        
+ 009DD2 4160 6004            00004   555          LA    6,4(,6)                                                                   
+ 009DD6 D20A 6000 C0EE 00000 09E1E   556          MVC   0(11,6),=X'4020202021204B20202020'                                        
+                                     557 *                                                                                        
+ 009DDC DE0A 6000 7001 00000 00001   558          ED    0(11,6),1(7)      FORMAT VALUES FOR PRINTING                              
+ 009DE2 4170 7006            00006   559          LA    7,6(,7)                                                                   
+                                     560 *                                                                                        
+ 009DE6 E020 C1C8 0085 09EF8         561          XPRNT PRINTLN,133                                                               
+ 009DEC 4150 000D            0000D   562          LA    5,13              COLUMN TABLE COUNTER                                    
+ 009DF0 4160 C1C9            09EF9   563          LA    6,PRINTLN+1       RELOAD PRINTLINE                                        
+ 009DF4 D283 6000 C144 00000 09E74   564          MVC   0(132,6),DLTLINE  DELETE THE PRINT LINE                                   
+                                     565 *                                                                                        
+1                                                                                                               PAGE   11         
+0  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                       
+ 009DFA 1974                         566          CR    7,4               DON'T GO PAST END OF THE TABLE                          
+ 009DFC 4740 C052            09D82   567          BL    PMODEL                                                                    
+                                     568 *                                                                                        
+ 009E00                              569          DROP  3                                                                         
+                                     570 *                                                                                        
+                                     571 * ==== Exit linkage ============                                                         
+ 009E00 1BFF                         572          SR    15,15           SET RETURN CODE TO 0                                      
+ 009E02 58D0 D004            00004   573          L     13,4(,13)       POINT R13 TO CALLER'S SAVE AREA                           
+ 009E06 58E0 D00C            0000C   574          L     14,12(,13)      RESTORE R14                                               
+ 009E0A 980C D014            00014   575          LM    0,12,20(13)     RESTORE R0 THRU R12                                       
+ 009E0E 07FE                         576          BR    14              RETURN TO CALLER                                          
+                                     577 *                                                                                        
+                                     578          LTORG                                                                           
+ 009E10 D4E2C57A                     579                =C'MSE:'                                                                  
+ 009E14 4021204B20202020             580                =X'4021204B2020202020'                                                    
+ 009E1D 0C                           581                =P'0'                                                                     
+ 009E1E 4020202021204B20             582                =X'4020202021204B20202020'                                                
+                                     583 *                                                                                        
+ 009E2C                              584 RSWSAVE  DS    18F             PROGRAM'S SAVE AREA                                       
+ 009E74 4040404040404040             585 DLTLINE  DC    132C' '                                                                   
+ 009EF8 4040404040404040             586 PRINTLN  DC    133C' '                                                                   
+                                     587 *                                                                                        
+                                     588          END   MAIN                                                                      
+0***  NO   STATEMENTS FLAGGED -  NO   WARNINGS,  NO   ERRORS                                                                      
+0*** DYNAMIC CORE AREA USED:  LOW:   63068 HIGH:    2280 LEAVING:  428220 FREE BYTES. AVERAGE:      110 BYTES/STMT ***            
+0*** ASSEMBLY TIME =    0.001 SECS,   589000 STATEMENTS/SEC ***                                                                   
+0*** PROGRAM EXECUTION BEGINNING - ANY OUTPUT BEFORE EXECUTION TIME MESSAGE IS PRODUCED BY USER PROGRAM ***                       
+      CRIM        ZN     INDUS      CHAS       NOX        RM       AGE       DIS       RAD       TAX   PTRATIO         B     LSTAT
+  -0.28513   0.02682   0.01965   4.89243 -17.76661   2.80887   0.00163  -1.40113   0.31625  -0.00843  -0.72392   0.00411  -0.50889
+                                                                                                                   MSE:  1535.5294
+   0.10801  -0.04642  -0.02056  -2.68673  17.76661  -3.80987  -0.00069   1.47557  -0.30605   0.01233   0.95275  -0.00931   0.52476
+                                                                                                                   MSE:   346.0641
+  -0.10801   0.04642   0.02056   2.68673 -17.76661   3.80987   0.00069  -1.47557   0.30605  -0.01233  -0.95275   0.00931  -0.52476
+                                                                                                                   MSE:  1351.1102
+  -0.12003   1.03988   0.03156   2.49763 -13.74491   1.99982   0.01493  -1.19257   0.29983  -0.00233  -0.94213   0.01029  -0.64228
+                                                                                                                   MSE:  1379.6128
+  -0.10831   0.04624   0.01999   2.70023 -17.75291   3.80923   0.00069  -1.47217   0.31023  -0.01133  -0.95899   0.00931  -0.51536
+                                                                                                                   MSE:  1317.8440
+0*** EXECUTION TIME =    0.085 SECS.    347477 INSTRUCTIONS EXECUTED -  4087964 INSTRUCTIONS/SEC ***                              
+0*** AM004 - NORMAL USER TERMINATION BY RETURN ***                                                                                
